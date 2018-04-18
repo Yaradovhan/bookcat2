@@ -30,21 +30,25 @@
     <div>
         <div>
             <p>Choose author:</p>
-            <p><select name="authors">
+            <p>
+                <select name="authors">
                     <option value="">None</option>
                     <?php foreach ($allAuthors as $key => $author) { ?>
                         <option value="<?php echo $author['title']; ?>"><?php echo $author['title']; ?></option>
                     <?php } ?>
-                </select></p>
+                </select>
+            </p>
         </div>
         <div>
             <p>Choose category:</p>
-            <p><select name="categories">
+            <p>
+                <select name="categories">
                     <option value="">None</option>
                     <?php foreach ($allCategories as $key => $category) { ?>
                         <option value="<?php echo $category['title']; ?>"><?php echo $category['title']; ?></option>
                     <?php } ?>
-                </select></p>
+                </select>
+            </p>
         </div>
     </div>
     <p>
