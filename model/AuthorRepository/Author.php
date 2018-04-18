@@ -30,19 +30,19 @@ class Author
     }
 
     /**
-     * @return mixed
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * @param $title
      */
     public function setTitle($title)
     {
         $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -52,7 +52,6 @@ class Author
     {
         $this->id = isset($data['id']) ? $data['id'] : null;
         $this->title = isset($data['title']) ? $data['title'] : null;
-
     }
 
     /**
@@ -60,6 +59,7 @@ class Author
      */
     public function getAuthor()
     {
-        return ['id' => $this->id, 'title' => $this->title];
+        return ['id' => $this->id,
+                'title' => $this->title];
     }
 }

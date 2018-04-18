@@ -25,7 +25,11 @@
 </head>
 <body>
 <h2>Main page</h2>
-
+<nav>
+    <ul>
+        <a href="<?php echo ConfigApp::adminPath();?>">Admin</a>
+    </ul>
+</nav>
 <form action="" method="get">
     <div>
         <div>

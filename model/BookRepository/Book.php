@@ -14,19 +14,18 @@ class Book
     }
 
     /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @param $id
      */
     public function setId($id)
     {
         $this->id = $id;
+    }
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -96,10 +95,10 @@ class Book
     public function setBook($data)
     {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
-        $this->title = (isset($data['title'])) ? $data['title'] : '';
-        $this->text = (isset($data['text'])) ? $data['text'] : '';
-        $this->description = (isset($data['description'])) ? $data['description'] : '';
-        $this->price = (isset($data['price'])) ? $data['price'] : '';
+        $this->title = (isset($data['title'])) ? $data['title'] : null;
+        $this->text = (isset($data['text'])) ? $data['text'] : null;
+        $this->description = (isset($data['description'])) ? $data['description'] : null;
+        $this->price = (isset($data['price'])) ? $data['price'] : null;
     }
 
     /**

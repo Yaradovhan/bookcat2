@@ -21,17 +21,22 @@ $headers .= 'ID книги: '.$field_id."\r\n";
 
 $mail_status = mail($mail_to, $subject, $body_message, $headers);
 
+$host = $_SERVER['HTTP_HOST'];
+$request = $_SERVER['REQUEST_URI'];
+$redirect = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$host" . "/bookcat2/index.php?book=";
+
+
 if ($mail_status) { ?>
 	<script language="javascript" type="text/javascript">
 		alert('Спасибо за заказ.');
-		window.location = 'http://bookcat.loc/view/post/view.php?action=view&post_id=<?php echo $field_id; ?>';
+		window.location = '<?php echo $redirect;?><?php echo $field_id; ?>';
 	</script>
 <?php
 }
 else { ?>
 	<script language="javascript" type="text/javascript">
 		alert('Ошибка при отправке формы');
-		window.location = 'http://bookcat.loc/view/post/view.php?action=view&post_id=<?php echo $field_id; ?>';
+		window.location = '<?php echo $redirect;?><?php echo $field_id; ?>';
 	</script>
 <?php
 }

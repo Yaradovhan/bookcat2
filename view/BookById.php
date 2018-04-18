@@ -21,10 +21,14 @@
             background-color: #dddddd;
         }
     </style>
-
 </head>
 <body>
 <h2>Book page</h2>
+<nav>
+    <ul>
+        <a href="<?php echo ConfigApp::getBaseUrl();?>">Home page</a>
+    </ul>
+</nav>
 <table>
         <tr>
             <th>Title</th>
@@ -42,8 +46,14 @@
         </tr>
 </table>
 
+<?php
+$host = $_SERVER['HTTP_HOST'];
+$request = $_SERVER['REQUEST_URI'];
+$actionContact = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$host" . "/bookcat2/model/contact.php";
+?>
+
 <h2>Заказать книгу</h2>
-<form action="contact.php" method="post">
+<form action="<?php echo $actionContact?>" method="post">
     Ваш адрес:<br>
     <input type="text" name="cf_address"><br>
     Ф.И.О.<br>
@@ -54,7 +64,5 @@
     <input type="submit" value="Заказать">
     <input type="reset" value="Очистить">
 </form>
-
-<?//= ConfigApp::dd($bookById) ?>
 </body>
 </html>

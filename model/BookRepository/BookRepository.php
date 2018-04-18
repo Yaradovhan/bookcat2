@@ -102,38 +102,47 @@ class BookRepository
         $res = mysqli_query($this->connection->getConnection(), $query);
         $query = "DELETE FROM `books` WHERE `id` = '$id'";
         $res = mysqli_query($this->connection->getConnection(), $query);
+
         return $res;
 
+    }
+
+    public function updateById($book)
+    {
+        $res = mysqli_query(
+            $this->connection->getConnection(),
+            "UPDATE books SET title=  '{$book->getTitle()}', 
+                                    description= '{$book->getDescription()}',
+                                    price= '{$book->getPrice()}'
+                                    WHERE id = '{$book->getId()}'");
+
+        return $res;
     }
 
     public function getAllByFilter($authors, $categories)
     {
         $query = "SELECT `books`.`id`, `books`.title, `books`.`description`, `books`.`price`, 
-GROUP_CONCAT(DISTINCT `categories`.`title`) as `category_title`, 
-GROUP_CONCAT(DISTINCT `authors`.`title`) as `author_title` 
-FROM `books` 
-LEFT JOIN `books_categories` ON `books_categories`.`book_id` = `books`.`id` 
-LEFT JOIN `categories` ON `categories`.id = `books_categories`.`category_id` 
-LEFT JOIN `books_authors` ON `books_authors`.`book_id` = `books`.`id` 
-LEFT JOIN `authors` ON `authors`.id = `books_authors`.`author_id`";
+                    GROUP_CONCAT(DISTINCT `categories`.`title`) as `category_title`, 
+                    GROUP_CONCAT(DISTINCT `authors`.`title`) as `author_title` 
+                    FROM `books` 
+                    LEFT JOIN `books_categories` ON `books_categories`.`book_id` = `books`.`id` 
+                    LEFT JOIN `categories` ON `categories`.id = `books_categories`.`category_id` 
+                    LEFT JOIN `books_authors` ON `books_authors`.`book_id` = `books`.`id` 
+                    LEFT JOIN `authors` ON `authors`.id = `books_authors`.`author_id`";
 
-        if (isset($authors) && !empty($authors) && isset($categories) && !empty($categories))
-        {
-            $query .= "WHERE authors.title = '$authors' AND categories.title = '$categories'" ;
-        } elseif (isset($categories) && !empty($categories))
-        {
+        if (isset($authors) && !empty($authors) && isset($categories) && !empty($categories)) {
+            $query .= "WHERE authors.title = '$authors' AND categories.title = '$categories'";
+        } elseif (isset($categories) && !empty($categories)) {
             $query .= "WHERE categories.title = '$categories'";
-        } elseif (isset($authors) && !empty($authors))
-        {
+        } elseif (isset($authors) && !empty($authors)) {
             $query .= "WHERE authors.title = '$authors'";
         }
 
         $query .= "GROUP BY `books`.`id`";
 
-//WHERE authors.title = '$authors' AND categories.title = '$categories'";
-
         $res = mysqli_query($this->connection->getConnection(), $query);
         if (!$res) {
+
             return false;
         }
         $data = [];
@@ -161,5 +170,38 @@ LEFT JOIN `authors` ON `authors`.id = `books_authors`.`author_id`";
         }
         return $data;
     }
+
+    public function addBook($book, $author, $category)
+    {
+        $res = mysqli_query($this->connection->getConnection(),
+            "INSERT INTO `books`(`title`, `text`, `description`, `price`) 
+                    VALUES ('" . $book['title'] . "',
+                              '" . $book['text'] . "',
+                              '" . $book['description'] . "',
+                              '" . $book['price'] . "')");
+        $res .= mysqli_query($this->connection->getConnection(),
+            "INSERT INTO `books_authors`(`book_id`, `author_id`) VALUES ((SELECT max(id) FROM `books`),{$author})");
+        $res .= mysqli_query($this->connection->getConnection(),
+            "INSERT INTO `books_categories`(`book_id`, `category_id`) VALUES ((SELECT max(id) FROM `books`),{$category})");
+
+        return $res;
+
+    }
+
+
+    /*
+     * START TRANSACTION;
+INSERT INTO `books`(`title`, `text`, `description`, `price`) VALUES ('yara','yara','yara','1111');
+INSERT INTO `books_authors`(`book_id`, `author_id`) VALUES ((SELECT max(id) FROM `books`),'2');
+INSERT INTO `books_categories`(`book_id`, `category_id`) VALUES ((SELECT max(id) FROM `books`),'2');
+COMMIT;
+
+$res = mysqli_query($this->connection->getConnection(),
+"INSERT INTO `books`(`title`, `text`, `description`, `price`) VALUES ('yara','yara','yara','1111')");
+$res .= mysqli_query($this->connection->getConnection(),
+"INSERT INTO `books_authors`(`book_id`, `author_id`) VALUES ((SELECT max(id) FROM `books`),'2')");
+$res .= mysqli_query($this->connection->getConnection(),
+"INSERT INTO `books_categories`(`book_id`, `category_id`) VALUES ((SELECT max(id) FROM `books`),'2')");
+     */
 
 }

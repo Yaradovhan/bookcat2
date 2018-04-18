@@ -7,6 +7,16 @@ Class ConfigApp
     const PASS = '';
     const DB = 'bookcat_db';
 
+    public static function adminPath()
+    {
+        return self::getBaseUrl().'/admin/index.php';
+    }
+
+    public static function mainPath()
+    {
+        return 'http://' . $_SERVER['HTTP_HOST'] . "/bookcat2/index.php";
+    }
+
     public static function getBaseUrl()
     {
         $currentPath = $_SERVER['PHP_SELF'];

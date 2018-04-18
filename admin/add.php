@@ -17,12 +17,8 @@ function __autoload($file)
     }
 }
 
-if (isset($_GET['add'])) {
-    $init = new AdminAdd();
-} elseif(isset($_GET['delete']) && !empty($_GET['delete'])) {
-    $init = new AdminDelete();
-} else {
-    $init = new AdminIndex();
-}
+$init = new AdminAddBook();
 
-echo $init->execute();
+$res = $init->execute();
+?>
+<a href="javascript:history .go(-1)">Task edited <br> go back to dashboard</a>

@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "My test project for Geek For Less"
+AuthUserFile /home/yara/www/bookcat2/admin/.htpasswd
+Require valid-user

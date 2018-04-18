@@ -31,9 +31,19 @@ class AuthorRepository
         return $data;
     }
 
-    public function getById($id)
+    public function getAuthorById($id)
     {
+        $query = "SELECT id, title FROM authors WHERE id = '$id'";
+        $res = mysqli_query($this->connection->getConnection(), $query);
+        $all = mysqli_fetch_array($res, MYSQLI_ASSOC);
+        $authors = new Author();
+        $authors->setAuthor([
+            'id' => $all['id'],
+            'title' => $all['title']
+        ]);
+        $data = $authors->getAuthor();
 
+        return $data;
     }
 
 }
